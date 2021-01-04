@@ -28,6 +28,26 @@ RCT_EXPORT_METHOD(getString:(RCTPromiseResolveBlock)resolve
   resolve((clipboard.string ? : @""));
 }
 
+RCT_EXPORT_METHOD(setImage:(NSString *)image)
+{
+	NSString *pngPrefix = @"data:image/png;base64,";
+	NSString *jpgPrefix = @"data:image/jpeg;base64";
+	
+	NSString *strippedBase64 = [image copy];
+	
+	if ([image hasPrefix: pngPrefix]) {
+		NSInteger offset = [pngPrefix length];
+		strippedBase64 = [image substringFromIndex: offset];
+	} else if ([image hasPrefix: jpgPrefix]) {
+		NSInteger offset = [jpgPrefix length];
+		strippedBase64 = [image substringFromIndex: offset];
+	}
+    NSData *imageData = [[NSData alloc]initWithBase64EncodedString:strippedBase64 options:NSDataBase64Encoding64CharacterLineLength];
+	UIImage *uiImage = [UIImage imageWithData: imageData];
+	UIPasteboard *clipboard = [UIPasteboard generalPasteboard];
+	clipboard.image = (uiImage ?: NULL);
+}
+
 RCT_EXPORT_METHOD(hasString:(RCTPromiseResolveBlock)resolve
                   reject:(__unused RCTPromiseRejectBlock)reject)
 {

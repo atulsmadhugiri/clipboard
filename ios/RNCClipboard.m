@@ -48,6 +48,35 @@ RCT_EXPORT_METHOD(setImage:(NSString *)image)
 	clipboard.image = (uiImage ?: NULL);
 }
 
+
+RCT_EXPORT_METHOD(getImagePNG : (RCTPromiseResolveBlock)resolve reject : (__unused RCTPromiseRejectBlock)reject)
+{
+	NSString *pngPrefix = @"data:image/png;base64,";
+	UIPasteboard *clipboard = [UIPasteboard generalPasteboard];
+	UIImage *pastedImage = clipboard.image;
+	if (!pastedImage) {
+		resolve(NULL);
+	} else {
+        NSString *imageDataBase64 = [UIImagePNGRepresentation(pastedImage) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+        NSString* withPrefix = [pngPrefix stringByAppendingString:imageDataBase64];
+        resolve((withPrefix ?: NULL));
+	}
+}
+
+RCT_EXPORT_METHOD(getImageJPG : (RCTPromiseResolveBlock)resolve reject : (__unused RCTPromiseRejectBlock)reject)
+{
+    NSString *jpgPrefix = @"data:image/jpeg;base64,";
+    UIPasteboard *clipboard = [UIPasteboard generalPasteboard];
+    UIImage *pastedImage = clipboard.image;
+    if (!pastedImage) {
+        resolve(NULL);
+    } else {
+        NSString *imageDataBase64 = [UIImageJPEGRepresentation(pastedImage, 1.0) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+        NSString* withPrefix = [jpgPrefix stringByAppendingString:imageDataBase64];
+        resolve((withPrefix ?: NULL));
+    }
+}
+
 RCT_EXPORT_METHOD(hasString:(RCTPromiseResolveBlock)resolve
                   reject:(__unused RCTPromiseRejectBlock)reject)
 {

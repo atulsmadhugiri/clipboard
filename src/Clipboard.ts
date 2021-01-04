@@ -27,11 +27,8 @@ export const Clipboard = {
   setString(content: string) {
     NativeClipboard.setString(content);
   },
-  
-  
-  
-  
   /**
+   * (IOS Only)
    * Get content of image type as PNG, this method returns a `Promise`, so you can use following code to get clipboard content
    * ```javascript
    * async _getContent() {
@@ -42,8 +39,8 @@ export const Clipboard = {
   getImagePNG(): Promise<string> {
     return NativeClipboard.getImagePNG();
   },
-  
   /**
+   * (IOS Only)
    * Get content of image type as JPG, this method returns a `Promise`, so you can use following code to get clipboard content
    * ```javascript
    * async _getContent() {
@@ -55,6 +52,7 @@ export const Clipboard = {
     return NativeClipboard.getImageJPG();
   },
   /**
+   * (IOS Only)
    * Set content of image type. You can use following code to set clipboard content
    * ```javascript
    * _setContent() {
@@ -66,8 +64,6 @@ export const Clipboard = {
   setImage(image: string) {
     NativeClipboard.setImage(image);
   },
-  
-  
   /**
    * Returns whether the clipboard has content or is empty.
    * This method returns a `Promise`, so you can use following code to get clipboard content
